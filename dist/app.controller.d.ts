@@ -4,10 +4,10 @@ export declare class AppController {
     constructor(appService: AppService);
     getHello(): string;
     sendFlightSeatInfo(params: any): any;
-    sendFlightPriceInfo(params: any): string;
+    sendFlightPriceInfo(params: any): any;
     sendActiveUsers(params: any): any;
     cancelUserSeats(params: any): string;
     deleteUserBooking(params: any): string;
     sendUserInfo(params: any): string;
-    bookFlightsforUser(params: any): string;
+    bookFlightsforUser(params: any): any;
 }

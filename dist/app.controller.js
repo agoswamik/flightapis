@@ -15,6 +15,24 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppController = void 0;
 const common_1 = require("@nestjs/common");
 const app_service_1 = require("./app.service");
+var fst = {
+    AirIndia_Kol_Del: 100,
+    Indigo_Kol_Del: 100,
+    SpiceJet_Kol_Del: 100,
+    AirIndia_Kol_Bang: 100,
+    Indigo_Kol_Bang: 100,
+    SpiceJet_Kol_Bang: 100
+};
+var fpst = {
+    AirIndia_Kol_Del: 200,
+    Indigo_Kol_Del: 175,
+    SpiceJet_Kol_Del: 150,
+    AirIndia_Kol_Bang: 240,
+    Indigo_Kol_Bang: 195,
+    SpiceJet_Kol_Bang: 170
+};
+var user_arr = [];
+var counter_id = 0;
 let AppController = class AppController {
     constructor(appService) {
         this.appService = appService;
@@ -23,25 +41,50 @@ let AppController = class AppController {
         return "HelloDudes";
     }
     sendFlightSeatInfo(params) {
-        return "";
+        return fst;
     }
     sendFlightPriceInfo(params) {
-        return "";
+        return fpst;
     }
     sendActiveUsers(params) {
-        return [{ a: 1, b: 2 }, { a: 2, b: 3 }];
+        return user_arr;
     }
     cancelUserSeats(params) {
-        return "";
+        var userId = params.userId;
+        var no_of_seats = parseInt(params.no_of_seats, 10);
+        this.appService.UpdateCancelSeats(fst, userId, no_of_seats, user_arr);
+        var refund_amt = this.appService.getRefundamt(userId, user_arr, no_of_seats, fpst);
+        return "Seat cancellation successful ! Amount to be refunded =" + refund_amt;
     }
     deleteUserBooking(params) {
-        return "";
+        var userId = params.userId;
+        this.appService.UpdateDeleteFlight(fst, userId, user_arr);
+        this.appService.DeleteUser(user_arr, userId);
+        return "Thank you for travelling with us ! Hope you had a safe journey";
     }
     sendUserInfo(params) {
-        return "";
+        var userId = params.userId;
+        var user = this.appService.findUser(user_arr, userId);
+        if (user == undefined) {
+            return "Sorry! User not found !";
+        }
+        return user;
     }
     bookFlightsforUser(params) {
-        return "";
+        var userName = params.userName;
+        var Flightid = parseInt(params.Flightid, 10);
+        var no_of_seats = parseInt(params.no_of_seats, 10);
+        var trips = params.trips;
+        if (Flightid > 5) {
+            return "Sorry! The flight you are looking for isn't available";
+        }
+        if (this.appService.updateBookFlight(fst, Flightid, no_of_seats)) {
+            var user = this.appService.getUserDetails(Flightid, fpst, userName, no_of_seats, trips, counter_id);
+            user_arr.push(user);
+            counter_id++;
+            return user;
+        }
+        return "Sorry! Not enough seats available";
     }
 };
 __decorate([
@@ -62,7 +105,7 @@ __decorate([
     __param(0, (0, common_1.Param)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", String)
+    __metadata("design:returntype", Object)
 ], AppController.prototype, "sendFlightPriceInfo", null);
 __decorate([
     (0, common_1.Get)('/getActiveUsers'),
@@ -93,11 +136,11 @@ __decorate([
     __metadata("design:returntype", String)
 ], AppController.prototype, "sendUserInfo", null);
 __decorate([
-    (0, common_1.Get)('/bookFlight/:userName/:Flightid/:no_of_seats/:trip'),
+    (0, common_1.Get)('/bookFlight/:userName/:Flightid/:no_of_seats/:trips'),
     __param(0, (0, common_1.Param)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", String)
+    __metadata("design:returntype", Object)
 ], AppController.prototype, "bookFlightsforUser", null);
 AppController = __decorate([
     (0, common_1.Controller)(),
