@@ -22,6 +22,18 @@ let FlightController = class FlightController {
     bookFlight(from, to, date, seats, flightNumber, isBooked, bookingStatus, paymentStatus) {
         this.flightService.bookFlight(from, to, date, seats, flightNumber, isBooked, bookingStatus, paymentStatus);
     }
+    cancelFlight(id) {
+        this.flightService.cancelFlight(id);
+    }
+    getBookingList(bookingStatus) {
+        return this.flightService.getbookingList(bookingStatus);
+    }
+    getFlightAvailability(flightNumber) {
+        return this.flightService.getFlightAvailability(flightNumber);
+    }
+    getUserBookings(id) {
+        return this.flightService.getUserBookings(id);
+    }
 };
 __decorate([
     (0, common_1.Post)('bookflight'),
@@ -37,6 +49,34 @@ __decorate([
     __metadata("design:paramtypes", [String, String, String, Number, String, Boolean, String, String]),
     __metadata("design:returntype", void 0)
 ], FlightController.prototype, "bookFlight", null);
+__decorate([
+    (0, common_1.Post)('cancelflight'),
+    __param(0, (0, common_1.Body)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], FlightController.prototype, "cancelFlight", null);
+__decorate([
+    (0, common_1.Post)('getbookinglist'),
+    __param(0, (0, common_1.Body)('bookingStatus')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Array)
+], FlightController.prototype, "getBookingList", null);
+__decorate([
+    (0, common_1.Post)('getflightavailability'),
+    __param(0, (0, common_1.Body)('flightNumber')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Array)
+], FlightController.prototype, "getFlightAvailability", null);
+__decorate([
+    (0, common_1.Post)('getuserbookings'),
+    __param(0, (0, common_1.Body)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Array)
+], FlightController.prototype, "getUserBookings", null);
 FlightController = __decorate([
     (0, common_1.Controller)('flights'),
     __metadata("design:paramtypes", [flights_service_1.FlightService])
