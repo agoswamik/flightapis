@@ -1,7 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppService = void 0;
+const getFlightInfo_1 = require("./service_modules/getFlightInfo");
+const app_controller_1 = require("./app.controller");
+const UpdateFlights_1 = require("./service_modules/UpdateFlights");
 class AppService {
+    async getFlightSeatInfo() {
+        var flights = new getFlightInfo_1.getFlightInfo();
+        var result = await flights.getSeatInfo();
+        return flights.getSeatInfo();
+    }
     getUserDetails(Flightid, fpst, userName, no_of_seats, trips, userid) {
         var price;
         var tripstatus;
@@ -26,13 +34,15 @@ class AppService {
         };
         return user;
     }
-    updateBookFlight(flight_st_obj, id, no_of_seats) {
-        var availableseats = flight_st_obj[Object.keys(flight_st_obj)[id]];
-        if (availableseats >= no_of_seats) {
-            flight_st_obj[Object.keys(flight_st_obj)[id]] = flight_st_obj[Object.keys(flight_st_obj)[id]] - no_of_seats;
-            return true;
-        }
-        return false;
+    async updateBookFlight(Flightid, no_of_seats) {
+        var updater = new UpdateFlights_1.UpdateFlights();
+        var flightinfo = new getFlightInfo_1.getFlightInfo();
+        var flight_obj = await flightinfo.findFlight(Flightid, app_controller_1.flight_ids);
+        flight_obj = Array(flight_obj);
+        flight_obj = flight_obj[0][0];
+        console.log(flight_obj.No_of_seats);
+        console.log(flight_obj.No_of_seats >= no_of_seats);
+        return (flight_obj.No_of_seats >= no_of_seats);
     }
     findUser(user_arr, id) {
         return user_arr.find(x => x.UserId == id);

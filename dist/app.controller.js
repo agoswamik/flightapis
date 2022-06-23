@@ -12,10 +12,10 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AppController = void 0;
+exports.AppController = exports.flight_ids = exports.fpst = exports.fst = void 0;
 const common_1 = require("@nestjs/common");
 const app_service_1 = require("./app.service");
-var fst = {
+exports.fst = {
     AirIndia_Kol_Del: 100,
     Indigo_Kol_Del: 100,
     SpiceJet_Kol_Del: 100,
@@ -23,13 +23,21 @@ var fst = {
     Indigo_Kol_Bang: 100,
     SpiceJet_Kol_Bang: 100
 };
-var fpst = {
+exports.fpst = {
     AirIndia_Kol_Del: 200,
     Indigo_Kol_Del: 175,
     SpiceJet_Kol_Del: 150,
     AirIndia_Kol_Bang: 240,
     Indigo_Kol_Bang: 195,
     SpiceJet_Kol_Bang: 170
+};
+exports.flight_ids = {
+    0: "AirIndia_Kol_Del",
+    1: "Indigo_Kol_Del",
+    2: "SpiceJet_Kol_Del",
+    3: "AirIndia_Kol_Bang",
+    4: "Indigo_Kol_Bang",
+    5: "SpiceJet_Kol_Bang"
 };
 var user_arr = [];
 var counter_id = 0;
@@ -38,13 +46,14 @@ let AppController = class AppController {
         this.appService = appService;
     }
     getHello() {
-        return "HelloDudes";
+        return "Welcome to flight API services!";
     }
-    sendFlightSeatInfo(params) {
-        return fst;
+    async sendFlightSeatInfo(params) {
+        var result = this.appService.getFlightSeatInfo();
+        return result;
     }
     sendFlightPriceInfo(params) {
-        return fpst;
+        return exports.fpst;
     }
     sendActiveUsers(params) {
         return user_arr;
@@ -52,13 +61,13 @@ let AppController = class AppController {
     cancelUserSeats(params) {
         var userId = params.userId;
         var no_of_seats = parseInt(params.no_of_seats, 10);
-        this.appService.UpdateCancelSeats(fst, userId, no_of_seats, user_arr);
-        var refund_amt = this.appService.getRefundamt(userId, user_arr, no_of_seats, fpst);
+        this.appService.UpdateCancelSeats(exports.fst, userId, no_of_seats, user_arr);
+        var refund_amt = this.appService.getRefundamt(userId, user_arr, no_of_seats, exports.fpst);
         return "Seat cancellation successful ! Amount to be refunded =" + refund_amt;
     }
     deleteUserBooking(params) {
         var userId = params.userId;
-        this.appService.UpdateDeleteFlight(fst, userId, user_arr);
+        this.appService.UpdateDeleteFlight(exports.fst, userId, user_arr);
         this.appService.DeleteUser(user_arr, userId);
         return "Thank you for travelling with us ! Hope you had a safe journey";
     }
@@ -70,7 +79,7 @@ let AppController = class AppController {
         }
         return user;
     }
-    bookFlightsforUser(params) {
+    async bookFlightsforUser(params) {
         var userName = params.userName;
         var Flightid = parseInt(params.Flightid, 10);
         var no_of_seats = parseInt(params.no_of_seats, 10);
@@ -78,11 +87,9 @@ let AppController = class AppController {
         if (Flightid > 5) {
             return "Sorry! The flight you are looking for isn't available";
         }
-        if (this.appService.updateBookFlight(fst, Flightid, no_of_seats)) {
-            var user = this.appService.getUserDetails(Flightid, fpst, userName, no_of_seats, trips, counter_id);
-            user_arr.push(user);
-            counter_id++;
-            return user;
+        if (await this.appService.updateBookFlight(Flightid, no_of_seats) == true) {
+            console.log(no_of_seats);
+            return "Seats booked successfully!";
         }
         return "Sorry! Not enough seats available";
     }
@@ -98,7 +105,7 @@ __decorate([
     __param(0, (0, common_1.Param)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", Object)
+    __metadata("design:returntype", Promise)
 ], AppController.prototype, "sendFlightSeatInfo", null);
 __decorate([
     (0, common_1.Get)('/getFlightPriceInfo'),
@@ -140,7 +147,7 @@ __decorate([
     __param(0, (0, common_1.Param)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", Object)
+    __metadata("design:returntype", Promise)
 ], AppController.prototype, "bookFlightsforUser", null);
 AppController = __decorate([
     (0, common_1.Controller)(),

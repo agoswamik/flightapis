@@ -1,0 +1,1 @@
+{"version":3,"file":"UpdateFlights.js","sourceRoot":"","sources":["../../src/service_modules/UpdateFlights.ts"],"names":[],"mappings":";;;AAEA,MAAa,aAAa;IACtB,gBAAgB,CAAC,QAAgB,EAAE,WAAmB,EAAE,UAAe;QACnE,IAAI,WAAW,GAAG,UAAU,CAAC,QAAQ,CAAC,CAAC;QACvC,OAAO,CAAC,GAAG,CAAC,WAAW,CAAC,CAAC;QAEzB,OAAO,KAAK,CAAC;IACjB,CAAC;CAEJ;AARD,sCAQC"}

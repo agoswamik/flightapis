@@ -1,4 +1,14 @@
+import { getFlightInfo } from "./service_modules/getFlightInfo";
+import { flight_ids } from "./app.controller";
+import { UpdateFlights } from "./service_modules/UpdateFlights";
+import mongoose from "mongoose";
+import { toArray } from "rxjs";
 export class AppService{
+    async getFlightSeatInfo():Promise<any>{
+        var flights = new getFlightInfo();
+        var result = await flights.getSeatInfo();
+        return flights.getSeatInfo();
+    }
     getUserDetails(Flightid:number, fpst:any, userName:string, no_of_seats:number, trips:string, userid: number):any{
         var price: number;
         var tripstatus: string;
@@ -24,14 +34,15 @@ export class AppService{
        return user;
 
 }
-updateBookFlight(flight_st_obj: any, id: number, no_of_seats: number) : boolean{
-    var availableseats : number = flight_st_obj[Object.keys(flight_st_obj)[id]];
-    if(availableseats >= no_of_seats){
-          flight_st_obj[Object.keys(flight_st_obj)[id]] = flight_st_obj[Object.keys(flight_st_obj)[id]]- no_of_seats;
-          return true;
-    }
-    return false;
-
+    async updateBookFlight( Flightid: number, no_of_seats: number) : Promise<boolean>{
+    var updater = new UpdateFlights();
+    var flightinfo = new getFlightInfo();
+    var flight_obj:any = await flightinfo.findFlight(Flightid, flight_ids);
+    flight_obj = Array(flight_obj);
+    flight_obj = flight_obj[0][0]; 
+    console.log(flight_obj.No_of_seats);
+    console.log(flight_obj.No_of_seats >= no_of_seats);
+    return (flight_obj.No_of_seats >= no_of_seats);
 }
 findUser(user_arr:Array<any>, id:number):any{
     return user_arr.find(x => x.UserId == id);

@@ -1,6 +1,6 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { AppService } from './app.service';
-var fst:any =  {
+export var fst:any =  {
   AirIndia_Kol_Del : 100,
   Indigo_Kol_Del : 100,
   SpiceJet_Kol_Del : 100,
@@ -8,7 +8,7 @@ var fst:any =  {
   Indigo_Kol_Bang : 100,
   SpiceJet_Kol_Bang : 100
 };
-var fpst:any =  {
+export var fpst:any =  {
   AirIndia_Kol_Del : 200,
   Indigo_Kol_Del : 175,
   SpiceJet_Kol_Del : 150,
@@ -16,6 +16,14 @@ var fpst:any =  {
   Indigo_Kol_Bang : 195,
   SpiceJet_Kol_Bang : 170
 }; 
+export var flight_ids = {
+  0: "AirIndia_Kol_Del",
+  1:  "Indigo_Kol_Del" ,
+  2: "SpiceJet_Kol_Del",
+  3: "AirIndia_Kol_Bang",
+  4: "Indigo_Kol_Bang" ,
+  5: "SpiceJet_Kol_Bang"
+}
 var user_arr = [];
 var counter_id = 0;
 
@@ -27,11 +35,12 @@ export class AppController {
 
   @Get('')
   getHello(): string {
-    return "HelloDudes";
+    return "Welcome to flight API services!";
   }
   @Get('/getFlightSeatInfo')
-  sendFlightSeatInfo(@Param()params):any {
-      return fst;
+  async sendFlightSeatInfo(@Param()params){
+      var result = this.appService.getFlightSeatInfo();
+      return result;
   }
   @Get('/getFlightPriceInfo')
   sendFlightPriceInfo(@Param()params):any {
@@ -66,7 +75,7 @@ export class AppController {
     return user;
   }
   @Get('/bookFlight/:userName/:Flightid/:no_of_seats/:trips')
-  bookFlightsforUser(@Param()params):any {
+  async bookFlightsforUser(@Param()params):Promise<any> {
     var userName = params.userName;
     var Flightid = parseInt(params.Flightid,10);
     var no_of_seats = parseInt(params.no_of_seats, 10);
@@ -74,11 +83,9 @@ export class AppController {
     if(Flightid > 5){
       return "Sorry! The flight you are looking for isn't available"
     }
-    if(this.appService.updateBookFlight(fst, Flightid, no_of_seats)){
-          var user = this.appService.getUserDetails(Flightid, fpst, userName, no_of_seats, trips, counter_id);
-          user_arr.push(user);
-          counter_id++;
-          return user;
+    if(await this.appService.updateBookFlight(Flightid, no_of_seats)==true){
+          console.log(no_of_seats);
+          return "Seats booked successfully!"
     }
     
     return "Sorry! Not enough seats available";
