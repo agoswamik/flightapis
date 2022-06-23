@@ -1,7 +1,7 @@
 import bodyParser from 'body-parser';
 import express from 'express';
 import dotenv from "dotenv"
-import flightRouter from "./routes/bookRouter"
+import flightRouter from "./routes/flightRoutes"
 dotenv.config()
 const app = express()
 app.use(express.json())
