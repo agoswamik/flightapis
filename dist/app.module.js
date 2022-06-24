@@ -9,13 +9,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
 const app_controller_1 = require("./app.controller");
+const mongoose_1 = require("@nestjs/mongoose");
 const app_service_1 = require("./app.service");
 const flight_module_1 = require("./flight/flight.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [flight_module_1.FlightModule],
+        imports: [flight_module_1.FlightModule, mongoose_1.MongooseModule.forRoot('mongodb+srv://s7arborne:2Oc4MBHaO40tJXCp@cluster0.5vyrd.mongodb.net/?retryWrites=true&w=majority')],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],
     })

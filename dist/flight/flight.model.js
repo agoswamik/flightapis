@@ -1,16 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Flight = void 0;
-class Flight {
-    constructor(id, from, to, date, price, seats, company) {
-        this.id = id;
-        this.from = from;
-        this.to = to;
-        this.date = date;
-        this.price = price;
-        this.seats = seats;
-        this.company = company;
-    }
-}
-exports.Flight = Flight;
+exports.FlightSchema = void 0;
+const mongoose = require("mongoose");
+exports.FlightSchema = new mongoose.Schema({
+    id: { type: Number, required: true },
+    from: { type: String, required: true },
+    to: { type: String, required: true },
+    date: { type: String, required: true },
+    price: { type: Number, required: true },
+    seats: { type: Number, required: true },
+    company: { type: String, required: true },
+});
 //# sourceMappingURL=flight.model.js.map

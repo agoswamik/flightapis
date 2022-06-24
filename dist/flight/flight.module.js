@@ -10,10 +10,13 @@ exports.FlightModule = void 0;
 const common_1 = require("@nestjs/common");
 const flight_controller_1 = require("./flight.controller");
 const flight_service_1 = require("./flight.service");
+const mongoose_1 = require("@nestjs/mongoose");
+const flight_model_1 = require("./flight.model");
 let FlightModule = class FlightModule {
 };
 FlightModule = __decorate([
     (0, common_1.Module)({
+        imports: [mongoose_1.MongooseModule.forFeature([{ name: 'Flight', schema: flight_model_1.FlightSchema }])],
         controllers: [flight_controller_1.FlightController],
         providers: [flight_service_1.FlightService],
     })
