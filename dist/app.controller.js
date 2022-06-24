@@ -88,8 +88,9 @@ let AppController = class AppController {
             return "Sorry! The flight you are looking for isn't available";
         }
         if (await this.appService.updateBookFlight(Flightid, no_of_seats) == true) {
-            console.log(no_of_seats);
-            return "Seats booked successfully!";
+            var user_obj = this.appService.getUserDetails(Flightid, userName, no_of_seats, trips, counter_id);
+            counter_id++;
+            return user_obj;
         }
         return "Sorry! Not enough seats available";
     }

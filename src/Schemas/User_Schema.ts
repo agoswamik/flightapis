@@ -1,0 +1,28 @@
+import mongoose, { model, Schema } from "mongoose";
+/* mongoose.connect('mongodb+srv://Romit1001:DeadfromOutside@cluster0.3sbip.mongodb.net/Flight-Management-System?retryWrites=true&w=majority'); */
+export interface IUser {
+    Name: string;
+    UserId: number;
+    Booking_Status: string;
+    FlightId: number;
+    Flight_name: string;
+    No_of_seats: number;
+    Total_Cost: number;
+    Trips: string
+  }
+  
+  // 2. Create a Schema corresponding to the document interface.
+  export const FlightStatusSchema = new Schema<IUser>({
+    Name: { type: String, required: true },
+    UserId: {type: Number, required: true},
+    Booking_Status: {type: String, default: "Confirmed"},
+    FlightId: {type:Number, required: true},
+    Flight_name: {type: String, required: true},
+    No_of_seats: { type: Number, required: true },
+    Total_Cost: { type: Number, required: true },
+    Trips:{type:String, required:true, default:"Up"}
+  });
+  
+  // 3. Create a Model.
+  export const User = model<IUser>('User', FlightStatusSchema);
+ 

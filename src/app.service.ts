@@ -1,18 +1,20 @@
 import { getFlightInfo } from "./service_modules/getFlightInfo";
-import { flight_ids } from "./app.controller";
+import { flight_ids, fpst } from "./app.controller";
 import { UpdateFlights } from "./service_modules/UpdateFlights";
 import mongoose from "mongoose";
 import { toArray } from "rxjs";
+import { UserController } from "./service_modules/UserController";
+
 export class AppService{
     async getFlightSeatInfo():Promise<any>{
         var flights = new getFlightInfo();
         var result = await flights.getSeatInfo();
         return flights.getSeatInfo();
     }
-    getUserDetails(Flightid:number, fpst:any, userName:string, no_of_seats:number, trips:string, userid: number):any{
+    getUserDetails(Flightid:number,  userName:string, no_of_seats:number, trips:string, userid: number):any{
         var price: number;
         var tripstatus: string;
-        var user: any;
+        var userController = new UserController();
         price = no_of_seats * fpst[Object.keys(fpst)[Flightid]];
         price += 0.15*price;
         if(trips === 'up&down'){
@@ -22,15 +24,7 @@ export class AppService{
         else{
            tripstatus = trips;
         }
-        user = {Name: userName,
-               UserId: userid,
-               Flight_name: Object.keys(fpst)[Flightid],
-               Flight_id: Flightid,
-               No_of_seats: no_of_seats,
-               Booking_status: "Confirmed",
-               Price: price,
-               Trip_status: tripstatus
-            }
+        var user = userController.addUser(Flightid, userName, no_of_seats, tripstatus, userid, price);
        return user;
 
 }
@@ -39,10 +33,13 @@ export class AppService{
     var flightinfo = new getFlightInfo();
     var flight_obj:any = await flightinfo.findFlight(Flightid, flight_ids);
     flight_obj = Array(flight_obj);
-    flight_obj = flight_obj[0][0]; 
-    console.log(flight_obj.No_of_seats);
-    console.log(flight_obj.No_of_seats >= no_of_seats);
-    return (flight_obj.No_of_seats >= no_of_seats);
+    flight_obj = flight_obj[0][0];
+    if(flight_obj.No_of_seats >= no_of_seats) {
+        updater.updateBookFlight(flight_obj, no_of_seats);
+        return true;
+    }
+    return false;
+    
 }
 findUser(user_arr:Array<any>, id:number):any{
     return user_arr.find(x => x.UserId == id);

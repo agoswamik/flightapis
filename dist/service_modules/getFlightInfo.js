@@ -2,22 +2,20 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getFlightInfo = void 0;
 const mongoose_1 = require("mongoose");
-const Schema_database_1 = require("../Schema_database");
+const Flight_Schema_1 = require("../Schemas/Flight_Schema");
 class getFlightInfo {
     findFlight(Flightid, flight_ids) {
         var flight_name = flight_ids[Flightid];
         mongoose_1.default.connect('mongodb+srv://Romit1001:DeadfromOutside@cluster0.3sbip.mongodb.net/Flight-Management-System?retryWrites=true&w=majority');
-        const FlightStatus = (0, mongoose_1.model)('Flight-Status', Schema_database_1.FlightStatusSchema);
         return new Promise(async (resolve, reject) => {
-            const flight_details = FlightStatus.find({ Name: flight_name }).clone();
+            const flight_details = Flight_Schema_1.FlightStatus.find({ Name: flight_name }).clone();
             resolve(flight_details);
         });
     }
     getSeatInfo() {
         mongoose_1.default.connect('mongodb+srv://Romit1001:DeadfromOutside@cluster0.3sbip.mongodb.net/Flight-Management-System?retryWrites=true&w=majority');
-        const FlightStatus = (0, mongoose_1.model)('Flight-Status', Schema_database_1.FlightStatusSchema);
         return new Promise(async (resolve, reject) => {
-            const flight_details = FlightStatus.find({}).clone();
+            const flight_details = Flight_Schema_1.FlightStatus.find({}).clone();
             var Seat_array = this.filter_seats(await flight_details.clone());
             resolve(Seat_array);
         });
