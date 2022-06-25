@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 export interface IUser {
     Name: string;
-    UserId: number;
+    UserId: string;
     Booking_Status: string;
     FlightId: number;
     Flight_name: string;

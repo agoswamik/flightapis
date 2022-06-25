@@ -2,7 +2,7 @@ import mongoose, { model, Schema } from "mongoose";
 /* mongoose.connect('mongodb+srv://Romit1001:DeadfromOutside@cluster0.3sbip.mongodb.net/Flight-Management-System?retryWrites=true&w=majority'); */
 export interface IUser {
     Name: string;
-    UserId: number;
+    UserId: string;
     Booking_Status: string;
     FlightId: number;
     Flight_name: string;
@@ -14,7 +14,7 @@ export interface IUser {
   // 2. Create a Schema corresponding to the document interface.
   export const FlightStatusSchema = new Schema<IUser>({
     Name: { type: String, required: true },
-    UserId: {type: Number, required: true},
+    UserId: {type: String, required: true},
     Booking_Status: {type: String, default: "Confirmed"},
     FlightId: {type:Number, required: true},
     Flight_name: {type: String, required: true},

@@ -4,7 +4,7 @@ exports.User = exports.FlightStatusSchema = void 0;
 const mongoose_1 = require("mongoose");
 exports.FlightStatusSchema = new mongoose_1.Schema({
     Name: { type: String, required: true },
-    UserId: { type: Number, required: true },
+    UserId: { type: String, required: true },
     Booking_Status: { type: String, default: "Confirmed" },
     FlightId: { type: Number, required: true },
     Flight_name: { type: String, required: true },

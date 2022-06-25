@@ -1,9 +1,29 @@
 import mongoose from "mongoose";
 import { flight_ids } from "src/app.controller";
+import { FlightStatus } from "src/Schemas/Flight_Schema";
 import { User } from "src/Schemas/User_Schema";
 
 export class UserController{
-    async addUser(Flightid: number, userName: string, no_of_seats: number, tripstatus: string, userid: number, price: number) {
+    deleteUser(userId: string): void {
+        mongoose.connect('mongodb+srv://Romit1001:DeadfromOutside@cluster0.3sbip.mongodb.net/Flight-Management-System?retryWrites=true&w=majority');
+        console.log(userId);
+        User.deleteOne({UserId : userId}, function(err, res){
+            if(err){
+                console.log(err);
+            }
+            else{
+                console.log("User deleted!")
+            }
+        }).clone();
+    }
+    findUser(userId: string) {
+        mongoose.connect('mongodb+srv://Romit1001:DeadfromOutside@cluster0.3sbip.mongodb.net/Flight-Management-System?retryWrites=true&w=majority');
+        return new Promise(async (resolve, reject) => {
+            const user_details =  User.find({UserId: userId}).clone();
+            resolve(user_details);
+          })
+    }
+    async addUser(Flightid: number, userName: string, no_of_seats: number, tripstatus: string, userid: string, price: number) {
         mongoose.connect('mongodb+srv://Romit1001:DeadfromOutside@cluster0.3sbip.mongodb.net/Flight-Management-System?retryWrites=true&w=majority');
         const req_user = new User({
             Name: userName,
@@ -19,5 +39,6 @@ export class UserController{
         console.log("User added!");
         return req_user;
     }
+
 
 }

@@ -59,10 +59,10 @@ export class AppController {
     return "Seat cancellation successful ! Amount to be refunded =" + refund_amt;
   }
   @Get('/deletebooking/:userId')
-  deleteUserBooking(@Param()params):string {
+  async deleteUserBooking(@Param()params):Promise<string> {
     var userId = params.userId;
-    this.appService.UpdateDeleteFlight(fst, userId, user_arr);
-    this.appService.DeleteUser(user_arr, userId);
+    await this.appService.UpdateDeleteFlight(userId);
+    await this.appService.DeleteUser(userId);
     return "Thank you for travelling with us ! Hope you had a safe journey";
   }
   @Get('/getUserInfo/:userId')
@@ -93,3 +93,5 @@ export class AppController {
   }
 
 }
+
+

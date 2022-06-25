@@ -5,6 +5,25 @@ const mongoose_1 = require("mongoose");
 const app_controller_1 = require("../app.controller");
 const User_Schema_1 = require("../Schemas/User_Schema");
 class UserController {
+    deleteUser(userId) {
+        mongoose_1.default.connect('mongodb+srv://Romit1001:DeadfromOutside@cluster0.3sbip.mongodb.net/Flight-Management-System?retryWrites=true&w=majority');
+        console.log(userId);
+        User_Schema_1.User.deleteOne({ UserId: userId }, function (err, res) {
+            if (err) {
+                console.log(err);
+            }
+            else {
+                console.log("User deleted!");
+            }
+        }).clone();
+    }
+    findUser(userId) {
+        mongoose_1.default.connect('mongodb+srv://Romit1001:DeadfromOutside@cluster0.3sbip.mongodb.net/Flight-Management-System?retryWrites=true&w=majority');
+        return new Promise(async (resolve, reject) => {
+            const user_details = User_Schema_1.User.find({ UserId: userId }).clone();
+            resolve(user_details);
+        });
+    }
     async addUser(Flightid, userName, no_of_seats, tripstatus, userid, price) {
         mongoose_1.default.connect('mongodb+srv://Romit1001:DeadfromOutside@cluster0.3sbip.mongodb.net/Flight-Management-System?retryWrites=true&w=majority');
         const req_user = new User_Schema_1.User({

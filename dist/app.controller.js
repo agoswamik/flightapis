@@ -65,10 +65,10 @@ let AppController = class AppController {
         var refund_amt = this.appService.getRefundamt(userId, user_arr, no_of_seats, exports.fpst);
         return "Seat cancellation successful ! Amount to be refunded =" + refund_amt;
     }
-    deleteUserBooking(params) {
+    async deleteUserBooking(params) {
         var userId = params.userId;
-        this.appService.UpdateDeleteFlight(exports.fst, userId, user_arr);
-        this.appService.DeleteUser(user_arr, userId);
+        await this.appService.UpdateDeleteFlight(userId);
+        await this.appService.DeleteUser(userId);
         return "Thank you for travelling with us ! Hope you had a safe journey";
     }
     sendUserInfo(params) {
@@ -134,7 +134,7 @@ __decorate([
     __param(0, (0, common_1.Param)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", String)
+    __metadata("design:returntype", Promise)
 ], AppController.prototype, "deleteUserBooking", null);
 __decorate([
     (0, common_1.Get)('/getUserInfo/:userId'),
