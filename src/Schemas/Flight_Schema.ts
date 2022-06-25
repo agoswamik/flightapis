@@ -1,6 +1,6 @@
-// mongodb+srv://Romit1001:<password>@cluster0.3sbip.mongodb.net/?retryWrites=true&w=majority
+
 import mongoose, { model, Schema } from "mongoose";
-/* mongoose.connect('mongodb+srv://Romit1001:DeadfromOutside@cluster0.3sbip.mongodb.net/Flight-Management-System?retryWrites=true&w=majority'); */
+
 export interface IFlight {
     Name: string;
     FlightId: number;

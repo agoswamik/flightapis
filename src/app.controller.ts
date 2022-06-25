@@ -1,5 +1,6 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { AppService } from './app.service';
+export const myMongoUrl = "secret";
 export var fst:any =  {
   AirIndia_Kol_Del : 100,
   Indigo_Kol_Del : 100,
