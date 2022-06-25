@@ -7,46 +7,48 @@ export class FlightController {
     constructor(private readonly flightService: FlightService) {}
 
     @Post('bookflight')
-    bookFlight(
+    async bookFlight(
         @Body('from') from: string,
         @Body('to') to: string,
         @Body('date') date: string,
         @Body('seats') seats: number,
         @Body('flightNumber') flightNumber: string,
         @Body('isBooked') isBooked: boolean,
-        @Body('bookingStatus') bookingStatus: string,
         @Body('paymentStatus') paymentStatus: string,
-    ): void {
-        this.flightService.bookFlight(
+    ) {
+       const res = await this.flightService.bookFlight(
             from,
             to,
             date,
             seats,
             flightNumber,
             isBooked,
-            bookingStatus,
             paymentStatus,
         );
+        return res;
     }
 
     @Post('cancelflight')
-    cancelFlight(@Body('id') id: string): void {
-        this.flightService.cancelFlight(id);
+    async cancelFlight(@Body('id') id: string) {
+        const res = this.flightService.cancelFlight(id);
+        return res;
     }
 
     @Post('getbookinglist')
-    getBookingList(@Body('bookingStatus') bookingStatus: string): BookingList[] {
-        return this.flightService.getbookingList(bookingStatus);
+    getBookingList(@Body('bookingStatus') bookingStatus: string) {
+        const res = this.flightService.getbookingList(bookingStatus);
+        return res;
     }
 
     @Post('getflightavailability')
-    getFlightAvailability(@Body('flightNumber') flightNumber: string): FlightAvailabilityList[] {
-        return this.flightService.getFlightAvailability(flightNumber);
+    getFlightAvailability(@Body('flightNumber') flightNumber: string) {
+        const res = this.flightService.getFlightAvailability(flightNumber);
+        return res;
     }
 
     @Post('getuserbookings')
-    getUserBookings(@Body('id') id: string): BookFlight[] {
-        return this.flightService.getUserBookings(id);
+    getUserBookings(@Body('id') id: string) {
+        const res = this.flightService.getUserBookings(id);
+        return res;
     }
-
 }

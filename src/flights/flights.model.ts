@@ -1,47 +1,75 @@
-class BookFlight{
-    constructor(
-        public id: string,
-        public from: string,
-        public to: string,
-        public date: string,
-        public seats: number,
-        public flightNumber: string,
-        public isBooked: boolean,
-        public paymentStatus: string,
-        public bookingStatus: string,
-    ){}
+import * as mongoose from "mongoose";
+
+const BookFlightSchema = new mongoose.Schema({
+    id: String,
+    from: String,
+    to: String,
+    date: String,
+    seats: Number,
+    flightNumber: String,
+    isBooked: Boolean,
+    paymentStatus: String,
+    bookingStatus: String,
+})
+
+interface BookFlight extends mongoose.Document{
+    id: String,
+    from: String,
+    to: String,
+    date: String,
+    seats: Number,
+    flightNumber: String,
+    isBooked: Boolean,
+    paymentStatus: String,
+    bookingStatus: String,
 }
 
-class BookingList{
-    constructor(
-        public isBookingSuccess: boolean,
-        public bookingStatus: string,
-        public bookingId: string,
-        public bookingDate: string,
-        public flightNumber: string,
-        public departureAirport: string,
-        public arrivalAirport: string,
-        public departureDate: string,
-        public arrivalDate: string,
-        public airfarecharges: number,
-        public taxes: number,
-        public totalAmount: number,
-        
-    ) {}
+const BookingListSchema = new mongoose.Schema({
+    isBookingSuccess: Boolean,
+    bookingStatus: String,
+    bookingId: String,
+    bookingDate: String,
+    flightNumber: String,
+    departureAirport: String,
+    arrivalAirport: String,
+    departureDate: String,
+    arrivalDate: String,
+    airfarecharges: Number,
+    taxes: Number,
+    totalAmount: Number,
+})
+
+interface BookingList extends mongoose.Document{
+    isBookingSuccess: Boolean,
+    bookingStatus: String,
+    bookingId: String,
+    bookingDate: String,
+    flightNumber: String,
+    departureAirport: String,
+    arrivalAirport: String,
+    departureDate: String,
+    arrivalDate: String,
+    airfarecharges: Number,
+    taxes: Number,
+    totalAmount: Number,
 }
 
-class FlightAvailabilityList {
-    constructor(
-        public flightNumber: string,
-        public seats: number
-    ) {}
+const FlightAvailabilityListSchema = new mongoose.Schema({
+    flightNumber: String,
+    seats: Number,
+})
+
+interface FlightAvailabilityList extends mongoose.Document{
+    flightNumber: String,
+    seats: Number,
 }
 
 
-export { BookFlight, BookingList, FlightAvailabilityList};
-
-// public isAvailable: boolean,
-// public isCancelled: boolean,
-// public isDelayed: boolean,
-// public isOnTime: boolean,
-// public isOnTimeDelayed: boolean,
+export { 
+    BookFlightSchema, 
+    BookingListSchema, 
+    FlightAvailabilityListSchema,
+    BookFlight,
+    BookingList,
+    FlightAvailabilityList, 
+};

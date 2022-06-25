@@ -19,20 +19,25 @@ let FlightController = class FlightController {
     constructor(flightService) {
         this.flightService = flightService;
     }
-    bookFlight(from, to, date, seats, flightNumber, isBooked, bookingStatus, paymentStatus) {
-        this.flightService.bookFlight(from, to, date, seats, flightNumber, isBooked, bookingStatus, paymentStatus);
+    async bookFlight(from, to, date, seats, flightNumber, isBooked, paymentStatus) {
+        const res = await this.flightService.bookFlight(from, to, date, seats, flightNumber, isBooked, paymentStatus);
+        return res;
     }
-    cancelFlight(id) {
-        this.flightService.cancelFlight(id);
+    async cancelFlight(id) {
+        const res = this.flightService.cancelFlight(id);
+        return res;
     }
     getBookingList(bookingStatus) {
-        return this.flightService.getbookingList(bookingStatus);
+        const res = this.flightService.getbookingList(bookingStatus);
+        return res;
     }
     getFlightAvailability(flightNumber) {
-        return this.flightService.getFlightAvailability(flightNumber);
+        const res = this.flightService.getFlightAvailability(flightNumber);
+        return res;
     }
     getUserBookings(id) {
-        return this.flightService.getUserBookings(id);
+        const res = this.flightService.getUserBookings(id);
+        return res;
     }
 };
 __decorate([
@@ -43,39 +48,38 @@ __decorate([
     __param(3, (0, common_1.Body)('seats')),
     __param(4, (0, common_1.Body)('flightNumber')),
     __param(5, (0, common_1.Body)('isBooked')),
-    __param(6, (0, common_1.Body)('bookingStatus')),
-    __param(7, (0, common_1.Body)('paymentStatus')),
+    __param(6, (0, common_1.Body)('paymentStatus')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, String, String, Number, String, Boolean, String, String]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:paramtypes", [String, String, String, Number, String, Boolean, String]),
+    __metadata("design:returntype", Promise)
 ], FlightController.prototype, "bookFlight", null);
 __decorate([
     (0, common_1.Post)('cancelflight'),
     __param(0, (0, common_1.Body)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], FlightController.prototype, "cancelFlight", null);
 __decorate([
     (0, common_1.Post)('getbookinglist'),
     __param(0, (0, common_1.Body)('bookingStatus')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", Array)
+    __metadata("design:returntype", void 0)
 ], FlightController.prototype, "getBookingList", null);
 __decorate([
     (0, common_1.Post)('getflightavailability'),
     __param(0, (0, common_1.Body)('flightNumber')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", Array)
+    __metadata("design:returntype", void 0)
 ], FlightController.prototype, "getFlightAvailability", null);
 __decorate([
     (0, common_1.Post)('getuserbookings'),
     __param(0, (0, common_1.Body)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", Array)
+    __metadata("design:returntype", void 0)
 ], FlightController.prototype, "getUserBookings", null);
 FlightController = __decorate([
     (0, common_1.Controller)('flights'),
