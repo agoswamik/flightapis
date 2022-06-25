@@ -4,6 +4,17 @@ exports.UpdateFlights = void 0;
 const mongoose_1 = require("mongoose");
 const Flight_Schema_1 = require("../Schemas/Flight_Schema");
 class UpdateFlights {
+    updateCancelSeats(FlightId, no_of_seats) {
+        mongoose_1.default.connect('mongodb+srv://Romit1001:DeadfromOutside@cluster0.3sbip.mongodb.net/Flight-Management-System?retryWrites=true&w=majority');
+        Flight_Schema_1.FlightStatus.updateOne({ FlightId: FlightId }, { $inc: { No_of_seats: no_of_seats } }, function (err, res) {
+            if (err) {
+                console.log(err);
+            }
+            else {
+                console.log("Done updating flight seats!");
+            }
+        }).clone();
+    }
     updateDeleteBooking(req_user) {
         mongoose_1.default.connect('mongodb+srv://Romit1001:DeadfromOutside@cluster0.3sbip.mongodb.net/Flight-Management-System?retryWrites=true&w=majority');
         var no_of_seats = req_user.No_of_seats;

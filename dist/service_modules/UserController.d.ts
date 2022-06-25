@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 export declare class UserController {
+    updateUser(userId: string, no_of_seats: number): void;
     deleteUser(userId: string): void;
     findUser(userId: string): Promise<unknown>;
     addUser(Flightid: number, userName: string, no_of_seats: number, tripstatus: string, userid: string, price: number): Promise<mongoose.Document<unknown, any, mongoose.MergeType<import("src/Schemas/User_Schema").IUser, {

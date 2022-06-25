@@ -22,7 +22,8 @@ export class getFlightInfo{
       var result = [];
       for(var i=0; i<flight_details.length; i++){
         var flight = {Name: (flight_details[i]).Name,
-                      No_of_seats: (flight_details[i]).No_of_seats}
+                      No_of_seats: (flight_details[i]).No_of_seats,
+                    FlightId: (flight_details[i]).FlightId};
         result.push(flight);
       }
       return result;

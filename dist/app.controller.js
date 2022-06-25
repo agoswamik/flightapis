@@ -55,15 +55,11 @@ let AppController = class AppController {
     sendFlightPriceInfo(params) {
         return exports.fpst;
     }
-    sendActiveUsers(params) {
-        return user_arr;
-    }
-    cancelUserSeats(params) {
+    async cancelUserSeats(params) {
         var userId = params.userId;
         var no_of_seats = parseInt(params.no_of_seats, 10);
-        this.appService.UpdateCancelSeats(exports.fst, userId, no_of_seats, user_arr);
-        var refund_amt = this.appService.getRefundamt(userId, user_arr, no_of_seats, exports.fpst);
-        return "Seat cancellation successful ! Amount to be refunded =" + refund_amt;
+        await this.appService.UpdateCancelSeats(userId, no_of_seats);
+        return "Seat cancellation successful ! Amount to be refunded soon";
     }
     async deleteUserBooking(params) {
         var userId = params.userId;
@@ -71,10 +67,11 @@ let AppController = class AppController {
         await this.appService.DeleteUser(userId);
         return "Thank you for travelling with us ! Hope you had a safe journey";
     }
-    sendUserInfo(params) {
+    async sendUserInfo(params) {
         var userId = params.userId;
-        var user = this.appService.findUser(user_arr, userId);
-        if (user == undefined) {
+        var user = this.appService.findUser(userId);
+        if (await user == "0") {
+            console.log(user);
             return "Sorry! User not found !";
         }
         return user;
@@ -116,18 +113,11 @@ __decorate([
     __metadata("design:returntype", Object)
 ], AppController.prototype, "sendFlightPriceInfo", null);
 __decorate([
-    (0, common_1.Get)('/getActiveUsers'),
-    __param(0, (0, common_1.Param)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", Object)
-], AppController.prototype, "sendActiveUsers", null);
-__decorate([
     (0, common_1.Get)('/cancelSeats/:userId/:no_of_seats'),
     __param(0, (0, common_1.Param)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", String)
+    __metadata("design:returntype", Promise)
 ], AppController.prototype, "cancelUserSeats", null);
 __decorate([
     (0, common_1.Get)('/deletebooking/:userId'),
@@ -141,7 +131,7 @@ __decorate([
     __param(0, (0, common_1.Param)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", String)
+    __metadata("design:returntype", Promise)
 ], AppController.prototype, "sendUserInfo", null);
 __decorate([
     (0, common_1.Get)('/bookFlight/:userName/:Flightid/:no_of_seats/:trips'),

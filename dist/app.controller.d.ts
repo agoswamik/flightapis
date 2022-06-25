@@ -15,9 +15,8 @@ export declare class AppController {
     getHello(): string;
     sendFlightSeatInfo(params: any): Promise<any>;
     sendFlightPriceInfo(params: any): any;
-    sendActiveUsers(params: any): any;
-    cancelUserSeats(params: any): string;
+    cancelUserSeats(params: any): Promise<string>;
     deleteUserBooking(params: any): Promise<string>;
-    sendUserInfo(params: any): string;
+    sendUserInfo(params: any): Promise<any>;
     bookFlightsforUser(params: any): Promise<any>;
 }

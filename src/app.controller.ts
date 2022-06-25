@@ -46,17 +46,14 @@ export class AppController {
   sendFlightPriceInfo(@Param()params):any {
     return fpst;
   }
-  @Get('/getActiveUsers')
-  sendActiveUsers(@Param()params):any {
-    return user_arr;
-  }
+  
   @Get('/cancelSeats/:userId/:no_of_seats')
-  cancelUserSeats(@Param()params):string {
+  async cancelUserSeats(@Param()params):Promise<string> {
     var userId = params.userId;
     var no_of_seats = parseInt(params.no_of_seats,10);
-    this.appService.UpdateCancelSeats(fst, userId, no_of_seats, user_arr);
-    var refund_amt = this.appService.getRefundamt(userId, user_arr, no_of_seats, fpst);
-    return "Seat cancellation successful ! Amount to be refunded =" + refund_amt;
+    await this.appService.UpdateCancelSeats(userId, no_of_seats);
+    
+    return "Seat cancellation successful ! Amount to be refunded soon";
   }
   @Get('/deletebooking/:userId')
   async deleteUserBooking(@Param()params):Promise<string> {
@@ -66,10 +63,11 @@ export class AppController {
     return "Thank you for travelling with us ! Hope you had a safe journey";
   }
   @Get('/getUserInfo/:userId')
-  sendUserInfo(@Param()params):string {
+  async sendUserInfo(@Param()params) {
     var userId = params.userId;
-    var user = this.appService.findUser(user_arr, userId);
-    if(user == undefined){
+    var user = this.appService.findUser(userId);
+    if(await user == "0"){
+      console.log(user);
       return "Sorry! User not found !"
     }
     return user;

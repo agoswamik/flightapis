@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 export interface IFlight {
     Name: string;
+    FlightId: number;
     No_of_seats: number;
     Price: number;
 }

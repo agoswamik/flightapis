@@ -4,6 +4,19 @@ import { FlightStatus } from "src/Schemas/Flight_Schema";
 import { User } from "src/Schemas/User_Schema";
 
 export class UserController{
+    updateUser(userId: string, no_of_seats: number) {
+        no_of_seats = no_of_seats * (-1);
+        mongoose.connect('mongodb+srv://Romit1001:DeadfromOutside@cluster0.3sbip.mongodb.net/Flight-Management-System?retryWrites=true&w=majority');
+        User.updateOne({UserId: userId},
+            {$inc: {No_of_seats: no_of_seats}}, function(err, res){
+                if(err){
+                    console.log(err);
+                }
+                else{
+                    console.log("Done Updating Cancellation!");
+                }
+            }).clone();
+    }
     deleteUser(userId: string): void {
         mongoose.connect('mongodb+srv://Romit1001:DeadfromOutside@cluster0.3sbip.mongodb.net/Flight-Management-System?retryWrites=true&w=majority');
         console.log(userId);

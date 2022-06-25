@@ -44,8 +44,16 @@ export class AppService{
     return false;
     
 }
-findUser(user_arr:Array<any>, id:number):any{
-    return user_arr.find(x => x.UserId == id);
+    async findUser(userId:string):Promise<any>{
+    var userController = new UserController();
+    var req_user:any = await userController.findUser(userId);
+    req_user = Array(req_user);
+    req_user = req_user[0][0];
+    console.log(req_user);
+    if(req_user == undefined){
+        return "0";
+    }
+    return req_user;
 }
     async UpdateDeleteFlight(userId: string):Promise<void>{
     var userController = new UserController();
@@ -62,18 +70,15 @@ findUser(user_arr:Array<any>, id:number):any{
     userController.deleteUser(userId);
     
 }
-UpdateCancelSeats(fst:any, userId:number, no_of_seats:number, user_arr:Array<any>):void{
-    var user = user_arr.find(x => x.UserId == userId);
-    var fid = user.Flight_id;
-    user.No_of_seats = user.No_of_seats - no_of_seats; 
-    fst[Object.keys(fst)[fid]] = fst[Object.keys(fst)[fid]] + no_of_seats;
-
+    async UpdateCancelSeats(userId:string, no_of_seats:number):Promise<void>{
+    var updater = new UserController();
+    var fl_updater = new UpdateFlights();
+    var req_user:any = await updater.findUser(userId);
+     req_user = Array(req_user);
+     req_user = req_user[0][0];
+    updater.updateUser(userId, no_of_seats);
+    fl_updater.updateCancelSeats(req_user.FlightId, no_of_seats);
 }
-getRefundamt(userId:number, user_arr:Array<any>, no_of_seats:number, fpst:any):number{
-   var user = user_arr.find(x => x.UserId == userId);
-   var fid = user.Flight_id;
 
-   return fpst[Object.keys(fpst)[fid]] * no_of_seats;
-}
 
 }
