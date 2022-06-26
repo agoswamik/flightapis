@@ -12,11 +12,24 @@ const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
 const mongoose_1 = require("@nestjs/mongoose");
 const flights_module_1 = require("./flights/flights.module");
+const config_1 = require("@nestjs/config");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [flights_module_1.FlightModule, mongoose_1.MongooseModule.forRoot('mongodb+srv://redhatpanda:MFAxjykrwHSFny0R@cluster0.n8vhqpf.mongodb.net/?retryWrites=true&w=majority')],
+        imports: [
+            config_1.ConfigModule.forRoot({ envFilePath: `${process.env.NODE_ENV}.env` }),
+            flights_module_1.FlightModule,
+            mongoose_1.MongooseModule.forRootAsync({
+                imports: [config_1.ConfigModule],
+                useFactory: async (configService) => ({
+                    uri: configService.get('DB_URI'),
+                    useNewUrlParser: true,
+                    useUnifiedTopology: true,
+                }),
+                inject: [config_1.ConfigService],
+            }),
+        ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],
     })
