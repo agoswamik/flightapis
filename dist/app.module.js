@@ -23,7 +23,7 @@ AppModule = __decorate([
             mongoose_1.MongooseModule.forRootAsync({
                 imports: [config_1.ConfigModule],
                 useFactory: async (configService) => ({
-                    uri: configService.get('DB_URI'),
+                    uri: 'mongodb+srv://redhatpanda:MFAxjykrwHSFny0R@cluster0.n8vhqpf.mongodb.net/?retryWrites=true&w=majority',
                     useNewUrlParser: true,
                     useUnifiedTopology: true,
                 }),

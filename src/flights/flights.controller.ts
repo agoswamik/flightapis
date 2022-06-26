@@ -30,25 +30,21 @@ export class FlightController {
 
     @Post('cancelflight')
     async cancelFlight(@Body('id') id: string) {
-        const res = this.flightService.cancelFlight(id);
-        return res;
+        return this.flightService.cancelFlight(id);
     }
 
     @Post('getbookinglist')
     getBookingList(@Body('bookingStatus') bookingStatus: string) {
-        const res = this.flightService.getbookingList(bookingStatus);
-        return res;
+        return this.flightService.getbookingList(bookingStatus);
     }
 
     @Post('getflightavailability')
     getFlightAvailability(@Body('flightNumber') flightNumber: string) {
-        const res = this.flightService.getFlightAvailability(flightNumber);
-        return res;
+        return this.flightService.getFlightAvailability(flightNumber);
     }
 
     @Post('getuserbookings')
     getUserBookings(@Body('id') id: string) {
-        const res = this.flightService.getUserBookings(id);
-        return res;
+        return this.flightService.getUserBookings(id);
     }
 }
