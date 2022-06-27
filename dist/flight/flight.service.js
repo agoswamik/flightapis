@@ -6,15 +6,22 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AppService = void 0;
+exports.FlightService = void 0;
 const common_1 = require("@nestjs/common");
-let AppService = class AppService {
-    getHello() {
-        return "Hello World!";
+const flight_model_1 = require("./flight.model");
+let FlightService = class FlightService {
+    constructor() {
+        this.flight = [];
+    }
+    bookFlight(to, from, price, date, seats) {
+        let flightid = Math.random().toString();
+        const newFlight = new flight_model_1.Flight(flightid, to, from, price, date, seats);
+        this.flight.push(newFlight);
+        return "flight booked";
     }
 };
-AppService = __decorate([
+FlightService = __decorate([
     (0, common_1.Injectable)()
-], AppService);
-exports.AppService = AppService;
-//# sourceMappingURL=app.service.js.map
+], FlightService);
+exports.FlightService = FlightService;
+//# sourceMappingURL=flight.service.js.map
