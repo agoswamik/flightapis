@@ -17,7 +17,7 @@ export class FlightController {
     @Delete(':id')
     async cancelFlight(@Body('id') id: string){
         await this.flightService.cancelFlight(id);
-        return null;
+        return "Ticket successfully cancelled";
     }
     @Get()
     async getBookingList(){
